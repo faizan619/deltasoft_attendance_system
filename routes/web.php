@@ -13,6 +13,8 @@ Route::post('/login-check',[UserController::class,'LoginProceed'])->name('LoginP
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 // Dashboard Routes
-Route::get('/dashboard',function(){
-    return view('dashboard');
-})->name("admin_dashboard");
+Route::get('/dashboard',function(){ return view('dashboard'); })->name("admin_dashboard");
+
+Route::get('/user',function(){
+    return view('attendance');
+}); 

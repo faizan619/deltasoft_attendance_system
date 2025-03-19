@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
+<div class="container-fluid text-light bg-dark">
     Welcome to admission {{ Auth::user()->username }}
 
     <!-- Display message about the user's location -->

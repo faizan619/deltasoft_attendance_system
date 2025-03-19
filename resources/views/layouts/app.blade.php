@@ -15,11 +15,16 @@
         .maincontainer {
             min-height: 100vh;
         }
+        .whitebackground{
+            background-image: url("{{asset('img/white.jpg')}}");
+            background-size: cover;
+            background-attachment: fixed;
+        }
     </style>
 </head>
 
 <body>
-    <div class="maincontainer d-flex flex-column">
+    <div class="maincontainer d-flex flex-column whitebackground">
         @if (Auth::check())
         @include('layouts.navbar')
         @endif

@@ -8,7 +8,7 @@
     }
 
     .loginbg {
-        background-image: url("{{asset('img/chair.jpg')}}");
+        background-image: url("{{asset('img/white.jpg')}}");
         background-size: cover;
     }
 </style>

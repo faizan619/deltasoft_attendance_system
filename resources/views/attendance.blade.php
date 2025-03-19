@@ -1,12 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid text-light bg-dark">
+<div class="container-fluid text-light">
     Welcome to admission {{ Auth::user()->username }}
 
     <!-- Display message about the user's location -->
     <div id="location-status">
         <p id="location-message">Checking your location...</p>
+        <p id="available-for-attendance"></p>
     </div>
 </div>
 
@@ -42,6 +43,7 @@
             // Show the result based on whether the user is within range
             if (distance <= officeRadius) {
                 document.getElementById("location-message").textContent = "You are within the office range. Attendance marked as present.";
+                document.getElementById("available-for-attendance").innerHTML = "<button class='btn btn-danger'>Enter Your Attendace</button>"
             } else {
                 document.getElementById("location-message").textContent = "You are outside the office range.";
             }

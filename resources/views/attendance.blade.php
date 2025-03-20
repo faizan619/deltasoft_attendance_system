@@ -43,7 +43,19 @@
             // Show the result based on whether the user is within range
             if (distance <= officeRadius) {
                 document.getElementById("location-message").textContent = "You are within the office range. Attendance marked as present.";
-                document.getElementById("available-for-attendance").innerHTML = "<button class='btn btn-danger'>Enter Your Attendace</button>"
+                // Create the form dynamically with a hidden input to store the current time
+                const formHtml = `
+                    <form method="POST" action="{{ route('attendance.store') }}">
+                        @csrf
+                        <input type="hidden" name="attendance_time" id="attendance-time" value="" />
+                        <button type="submit" class="btn btn-primary">Mark Attendance</button>
+                    </form>
+                `;
+                document.getElementById("available-for-attendance").innerHTML = formHtml;
+
+                // Set the hidden input value to the current time (format it as needed)
+                const currentTime = new Date().toISOString(); // You can customize this to your preferred format
+                document.getElementById("attendance-time").value = currentTime;
             } else {
                 document.getElementById("location-message").textContent = "You are outside the office range.";
             }

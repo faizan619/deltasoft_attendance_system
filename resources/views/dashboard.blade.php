@@ -12,21 +12,34 @@
                     <thead class="">
                         <tr>
                             <th>Emp Name</th>
-                            <th>Emp Email</th>
+                            <!-- <th>Emp Email</th> -->
                             <th>Emp Mobile</th>
-                            <th>Check In</th>
-                            <th>Check Out</th>
+                            <th>Date</th>
+                            <th>CheckIn</th>
+                            <th>CheckOut</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($empData as $emp)
-                        <tr>
-                            <td>{{$emp->username}}</td>
-                            <td>{{$emp->email}}</td>
-                            <td>{{$emp->mobile}}</td>
-                            <td>{{$emp->attendanceLogs->checkIn}}</td>
-                            <td>{{$emp->attendanceLogs->checkOut}}</td>
-                        </tr>
+                        @foreach ($emp->getUserAttendance as $att)
+                            <tr>
+                                <td>{{$emp->username}}</td>
+                                <!-- <td>{{$emp->email}}</td> -->
+                                <td>{{$emp->mobile}}</td>
+                                <td>{{ \Carbon\Carbon::parse($att->created_at)->format('jS F Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($att->checkIn)->format('g:i A') }}</td>
+                                <td>{{ $att->checkOut ? \Carbon\Carbon::parse($att->checkOut)->format('g:i A') : 'N/A' }}</td>
+                                <td>
+                                    <select name="reason" id="reason" class="form-control">
+                                        <option value="">Select Reason</option>
+                                        <option value="">Select Reason</option>
+                                        <option value="">Select ReasonSelect ReasonSelect Reason</option>
+                                        <option value="">Select ReasonSelect ReasonSelect Reason</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        @endforeach
                         @empty
                         <tr>
                             <td colspan="5" class="">No Data Found</td>

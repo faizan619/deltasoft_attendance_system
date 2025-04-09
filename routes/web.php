@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 Route::redirect('/','/login');
@@ -15,4 +16,6 @@ Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 // Dashboard Routes
 Route::get('/dashboard',[UserController::class,'admin_dashboard'])->name("admin_dashboard");
 
-Route::get('/user',[UserController::class,'user_dashboard'])->name('user_dashboard'); 
+Route::get('/user',[AttendanceController::class,'user_dashboard'])->name('user_dashboard'); 
+Route::post('/user-attendance',[AttendanceController::class,'store'])->name('attendance.store');
+Route::get('/user-reached',[AttendanceController::class,'reached'])->name('reached');

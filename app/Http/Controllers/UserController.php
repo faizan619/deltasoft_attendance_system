@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\Employees;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -41,11 +43,10 @@ class UserController extends Controller
     }
 
     public function admin_dashboard(){
-        $empData = Employees::with('attendanceLogs')->get();
+        $empData = User::with('getUserAttendance')->get();
+        // return $empData;
         return view('dashboard',compact('empData'));
     }
 
-    public function user_dashboard(){
-        return view('attendance');
-    }
+   
 }

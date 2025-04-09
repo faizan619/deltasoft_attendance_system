@@ -13,6 +13,10 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
     public $timestamps = false;
 
+    function getUserAttendance(){
+        return $this->hasMany(Attendance::class,'emp_id','id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

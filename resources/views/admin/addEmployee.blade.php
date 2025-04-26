@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="p-3 rounded shadow  col-10 mx-auto text-light border mt-5">
+    <div class="p-3 rounded shadow  col-10 mx-auto border mt-5">
         
 
         @if (session('success'))

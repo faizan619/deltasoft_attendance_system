@@ -2,13 +2,17 @@
 
 @section('styleTag')
 <style>
-    .headerstyle{
+    .headerstyle {
         text-decoration: none;
     }
-    .headerstyle:hover{
+
+    .headerstyle:hover {
         text-decoration: underline;
-    }   
+    }
 </style>
+<!-- DataTables Buttons CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
 @endsection
 
 @section('content')
@@ -29,9 +33,9 @@
         @endif
     </div>
     <!-- <div class="container-md-fluid mt-3"> -->
-        <div class="col-md-12 text-center">
+    <div class="col-md-12 text-center">
         <a class="btn btn-danger mb-3" href="{{ route('add_employee') }}">Add New Employee</a>
-        </div>
+    </div>
     <div class="card col-md-8 mx-auto">
         <div class="card-header bg-primary">
             <a class="text-light headerstyle" href="{{ route('admin_dashboard') }}">Employee Attendance Records</a> <span> | </span>
@@ -50,19 +54,19 @@
                 </thead>
                 <tbody>
                     @forelse ($empData as $emp)
-                        <tr>
-                            <td>{{ $empIds->get($emp->emp_id) }}</td>
-                            <td>{{ \Carbon\Carbon::parse($emp->created_at)->format('jS F Y') }}</td>
-                            <td>{{ \Carbon\Carbon::parse($emp->checkIn)->format('g:i A') }}</td>
+                    <tr>
+                        <td>{{ $empIds->get($emp->emp_id) }}</td>
+                        <td>{{ \Carbon\Carbon::parse($emp->created_at)->format('jS F Y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($emp->checkIn)->format('g:i A') }}</td>
                         <td>{{ $emp->checkOut ? \Carbon\Carbon::parse($emp->checkOut)->format('g:i A') : 'N/A' }}</td>
                         <td></td>
-                        </tr>
+                    </tr>
                     @empty
                     <tr>
                         <td colspan="5" class="">No Data Found</td>
                     </tr>
                     @endforelse
-                    
+
                 </tbody>
             </table>
             <!--  -->
@@ -75,16 +79,38 @@
 @endsection
 
 @section('scriptTag')
+
+<!-- DataTables Buttons + JS libraries -->
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#attendanceTable').DataTable({
-            "paging": true,        // Enable pagination
-            "lengthChange": true,  // Allow user to change number of records per page
-            "searching": true,     // Enable search/filter
-            "ordering": true,      // Enable sorting
-            "info": true,          // Show "Showing X of Y entries"
-            "autoWidth": false,    // Disable auto width (better control)
-            "responsive": true     // Make it responsive
+            "paging": true, // Enable pagination
+            "lengthChange": true, // Allow user to change number of records per page
+            "searching": true, // Enable search/filter
+            "ordering": true, // Enable sorting
+            "info": true, // Show "Showing X of Y entries"
+            "autoWidth": false, // Disable auto width (better control)
+            "responsive": true, // Make it responsive
+            dom: 'Bfrtip', // THIS LINE is important to show buttons
+            buttons: [{
+                    extend: 'excelHtml5',
+                    title: 'Attendance_Report'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'Attendance_Report'
+                },
+                {
+                    extend: 'print',
+                    title: 'Attendance_Report'
+                }
+            ]
         });
     });
 </script>

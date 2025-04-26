@@ -58,10 +58,10 @@ class UserController extends Controller
     public function admin_dashboard()
     {
         // $empData = User::with(['getUserAttendance' ])->get();
-        $empData = Attendance::latest()->get();
+        $empData = Attendance::orderBy('checkIn', 'desc')->get();
         $empIds = User::pluck('username', 'id');
 
-        // return $empData;
+        return $empData;
         return view('dashboard', compact('empData', 'empIds'));
     }
 

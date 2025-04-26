@@ -15,11 +15,11 @@
         .maincontainer {
             min-height: 100vh;
         }
-        .whitebackground{
+        /* .whitebackground{
             background-image: url("{{asset('img/white.jpg')}}");
             background-size: cover;
             background-attachment: fixed;
-        }
+        } */
     </style>
 </head>
 

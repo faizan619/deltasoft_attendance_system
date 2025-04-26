@@ -18,14 +18,30 @@
 <div class="container-fluid loginbg">
     <div class="row d-flex justify-content-center align-items-center loginpage">
         <div class="col-md-5 mx-auto">
+        @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ session('success') }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        @endif
+        @if (session('failed'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>{{ session('failed') }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        @endif
             <div class="card shadow">
                 <div class="card-header bg-dark text-light">Login Form</div>
                 <div class="card-body">
                     <form action="{{ route('LoginProceed') }}" method="POST" class="row">
                         @csrf
                         <div class="col-md-12">
-                            <label for="username">UserName : </label>
-                            <input type="text" name="username" id="username"  placeholder="deltasoft" class="form-control mt-2">
+                            <label for="email">Email : </label>
+                            <input type="email" name="email" id="email"  placeholder="deltasoft" class="form-control mt-2">
                         </div>
                         <div class="col-md-12 mt-3">
                             <label for="password">Passowrd : </label>

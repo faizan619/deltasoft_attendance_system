@@ -34,10 +34,6 @@
                 </tbody>
             </table>
         </div>
-        <!-- <div class="card-footer">
-
-            </div> -->
-        <!-- {{-- Pagination links --}} -->
         <div class="d-flex justify-content-center">
             {{ $attendances->links() }}
         </div>

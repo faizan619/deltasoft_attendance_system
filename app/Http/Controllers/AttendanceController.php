@@ -13,9 +13,16 @@ class AttendanceController extends Controller
 {
     public function user_dashboard()
     {
-        $user = Employees::all();
+        $user = Auth::user()->role;
         // return $user;
-        return view('usersAttendance.attendance');
+        if($user == "admin"){
+            return redirect()->back()->with('error',"Admin Can't Put Their Attendance. Login With your Employee ID");
+        }
+        else{
+            $user = Employees::all();
+            // return $user;
+            return view('usersAttendance.attendance');
+        }
     }
 
     // public function store(Request $request)

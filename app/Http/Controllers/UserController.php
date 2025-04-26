@@ -33,9 +33,19 @@ class UserController extends Controller
             'password' => 'required'
         ]);
         if (Auth::attempt($data)) {
-            return redirect()->route('admin_dashboard');
+            // return redirect()->route('admin_dashboard');
+            $user = Auth::user(); // Get the logged-in user
+
+            if ($user->role == 'admin') {
+                return redirect()->route('admin_dashboard');
+            } elseif ($user->role == 'employee') {
+                return redirect()->route('user_dashboard');
+            } else {
+                Auth::logout(); // Optional: logout unknown role
+                return redirect()->back()->with('failed', 'Unauthorized role!');
+            }
         } else {
-            return redirect()->back()->with('failed','Please Enter Correct Credentials!');
+            return redirect()->back()->with('failed', 'Please Enter Correct Credentials!');
         }
     }
 
@@ -48,11 +58,11 @@ class UserController extends Controller
     public function admin_dashboard()
     {
         // $empData = User::with(['getUserAttendance' ])->get();
-        $empData = Attendance::latest()->simplePaginate(10);
+        $empData = Attendance::latest()->get();
         $empIds = User::pluck('username', 'id');
 
         // return $empData;
-        return view('dashboard', compact('empData','empIds'));
+        return view('dashboard', compact('empData', 'empIds'));
     }
 
     public function add_employee()
@@ -106,17 +116,18 @@ class UserController extends Controller
             DB::commit(); // Commit if everything is fine
 
             // return "Data is Saved";
-            return redirect()->route('admin_dashboard')->with('success',"Employee Address Successfully");
+            return redirect()->route('admin_dashboard')->with('success', "Employee Address Successfully");
         } catch (\Exception $e) {
             DB::rollBack(); // Rollback if any error occurs
-            return redirect()->route('admin_dashboard')->with('success',"Failed to Save Data");
+            return redirect()->route('admin_dashboard')->with('success', "Failed to Save Data");
             // return "Failed to save data: " . $e->getMessage();
         }
     }
 
-    public function ViewEmpList(){
+    public function ViewEmpList()
+    {
         $emps = Employees::all();
         // return $emps;
-        return view('admin.employeelist',compact('emps'));
+        return view('admin.employeelist', compact('emps'));
     }
 }

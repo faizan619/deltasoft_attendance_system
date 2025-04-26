@@ -8,4 +8,8 @@ class Attendance extends Model
 {
     public $timestamps = false;
     protected $table = "attendance";
+
+    function empName(){
+        return $this->belongsTo(User::class,'emp_id','id');
+    }
 }

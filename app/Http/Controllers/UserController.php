@@ -58,10 +58,11 @@ class UserController extends Controller
     public function admin_dashboard()
     {
         // $empData = User::with(['getUserAttendance' ])->get();
-        $empData = Attendance::orderBy('checkIn', 'desc')->get();
+        $empData = Attendance::orderBy('checkIn', 'desc')->get();;
+        // $empData = Attendance::latest()->get();
         $empIds = User::pluck('username', 'id');
 
-        return $empData;
+        // return $empData;
         return view('dashboard', compact('empData', 'empIds'));
     }
 
@@ -129,5 +130,61 @@ class UserController extends Controller
         $emps = Employees::all();
         // return $emps;
         return view('admin.employeelist', compact('emps'));
+    }
+
+    public function update_employee(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'empid'          => 'required|exists:employees,id', // Make sure employee exists
+            'empname'        => 'required|string|max:255',
+            'empemail'       => 'required|email|unique:users,email,' . $request->empid,
+            'empphone'       => 'required',
+            'empdesignation' => 'required|string',
+            'empentrytime'   => 'required',
+            'empexittime'    => 'required|after:empentrytime',
+            'empaddress'     => 'required|string',
+            'emprole'        => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        DB::beginTransaction();
+
+        try {
+            // Update User
+            $user = User::where('email', $request->empemail)->first();
+            if ($user) {
+                $user->username = $request->empname;
+                $user->email = $request->empemail;
+                $user->mobile = $request->empphone;
+                $user->address = $request->empaddress;
+                $user->role = $request->emprole;
+                $user->save();
+            }
+
+            // Update Employee
+            $employee = Employees::where('id', $request->empid)->first();
+            if ($employee) {
+                $employee->name = $request->empname;
+                $employee->email = $request->empemail;
+                $employee->mobile = $request->empphone;
+                $employee->address = $request->empaddress;
+                $employee->entryTime = $request->empentrytime;
+                $employee->exitTime = $request->empexittime;
+                $employee->designation = $request->empdesignation;
+                $employee->save();
+            }
+
+            DB::commit();
+
+            return redirect()->route('admin_dashboard')->with('success', "Employee Updated Successfully");
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('admin_dashboard')->with('error', "Failed to Update Employee: " . $e->getMessage());
+        }
     }
 }

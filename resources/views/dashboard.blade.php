@@ -6,6 +6,10 @@
         text-decoration: none;
     }
 
+    .underlinestyle {
+        text-decoration: underline;
+    }
+
     .headerstyle:hover {
         text-decoration: underline;
     }
@@ -38,7 +42,7 @@
     </div>
     <div class="card col-md-8 mx-auto">
         <div class="card-header bg-primary">
-            <a class="text-light headerstyle" href="{{ route('admin_dashboard') }}">Employee Attendance Records</a> <span> | </span>
+            <a class="text-light headerstyle underlinestyle" href="{{ route('admin_dashboard') }}">Employee Attendance Records</a> <span> | </span>
             <a class="text-light headerstyle" href="{{ route('emp_list') }}">Employee List</a>
         </div>
         <div class="card-body p-3">
@@ -56,7 +60,8 @@
                     @forelse ($empData as $emp)
                     <tr>
                         <td>{{ $empIds->get($emp->emp_id) }}</td>
-                        <td>{{ \Carbon\Carbon::parse($emp->created_at)->format('jS F Y') }}</td>
+                        <!-- <td>{{ \Carbon\Carbon::parse($emp->created_at)->format('jS F Y') }}</td> -->
+                        <td>{{ \Carbon\Carbon::parse($emp->checkIn)->format('jS F Y') }}</td>
                         <td>{{ \Carbon\Carbon::parse($emp->checkIn)->format('g:i A') }}</td>
                         <td>{{ $emp->checkOut ? \Carbon\Carbon::parse($emp->checkOut)->format('g:i A') : 'N/A' }}</td>
                         <td></td>
@@ -110,6 +115,11 @@
                     extend: 'print',
                     title: 'Attendance_Report'
                 }
+            ],
+            "columnDefs": [{
+                    "orderable": false,
+                    // "targets": [0,4]
+                } // 👈 0 means first column = Emp Name
             ]
         });
     });

@@ -22,6 +22,7 @@ Route::get('/dashboard',[UserController::class,'admin_dashboard'])->name("admin_
 Route::get('/add-employee',[UserController::class,'add_employee'])->name("add_employee")->middleware([checkAdmin::class]);
 Route::post('/save-employee',[UserController::class,'save_employee'])->name("save_employee")->middleware([checkAdmin::class]);
 Route::get('/emp-list',[UserController::class,'ViewEmpList'])->name('emp_list')->middleware([checkAdmin::class]);
+Route::post('/update-employee',[UserController::class,'update_employee'])->name('update_employee')->middleware([checkAdmin::class]);
 
 Route::get('/user',[AttendanceController::class,'user_dashboard'])->name('user_dashboard');     // Role is Already Checking in Controller so no need of middleware here
 Route::post('/user-attendance',[AttendanceController::class,'store'])->name('attendance.store')->middleware([checkUser::class]);

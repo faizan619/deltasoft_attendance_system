@@ -3,20 +3,20 @@
 @section('title','login Page')
 @section('styleTag')
 <style>
-    .loginpage {
+    /* .loginpage {
         height: 100vh;
-    }
+    } */
 
-    .loginbg {
+    /* .loginbg {
         background-image: url("{{asset('img/white.jpg')}}");
         background-size: cover;
-    }
+    } */
 </style>
 @endsection
 
 @section('content')
 <div class="container-fluid loginbg">
-    <div class="row d-flex justify-content-center align-items-center loginpage">
+    <div class="row d-flex justify-content-center align-items-center loginpage mt-4 pt-3">
         <div class="col-md-5 mx-auto">
         @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -49,9 +49,12 @@
                         </div>
                         <div class="col-12 mt-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                                <!-- <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required> -->
+                                <input class="form-check-input" type="checkbox" name="remember" id="invalidCheck">
+
                                 <label class="form-check-label" for="invalidCheck">
-                                    Agree to terms and conditions
+                                    <!-- Agree to terms and conditions -->
+                                     Remember Me
                                 </label>
                                 <div class="invalid-feedback">
                                     You must agree before submitting.

@@ -20,19 +20,22 @@ class UserController extends Controller
     public function LoginProceed(Request $request)
     {
         // $user = new User();
-        // $user->name = "faizan";
-        // $user->email = "alamf6023@gmail.com";
-        // $user->password = 1234;
-        // $user->mobile = 9987337815;
-        // $user->address = "deltasoft system";
+        // $user->name = "Admin";
+        // $user->email = "attendance@deltasoftsys.in";
+        // $user->password = Hash::make(deltasoft@123);
+        // $user->mobile = 8097845219;
+        // $user->address = "5, Garden View, Beside Chopstick Restaurant, Near Sai Nagar Ground, Sai Nagar, Vasai West";
         // $user->role = "admin";
         // $user->save();
+
+        // return "done with saving";
 
         $data = $request->validate([
             'email' => 'required',
             'password' => 'required'
         ]);
-        if (Auth::attempt($data)) {
+        $remember = $request->has('remember'); // Checkbox from login form
+        if (Auth::attempt($data, $remember)) {
             // return redirect()->route('admin_dashboard');
             $user = Auth::user(); // Get the logged-in user
 

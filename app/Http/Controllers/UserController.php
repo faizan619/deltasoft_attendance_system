@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Models\Employees;
+use App\Models\Locations;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -71,7 +72,8 @@ class UserController extends Controller
 
     public function add_employee()
     {
-        return view('admin.addEmployee');
+        $locs = Locations::get();
+        return view('admin.addEmployee',compact('locs'));
     }
 
     public function save_employee(Request $request)
@@ -86,6 +88,7 @@ class UserController extends Controller
             'empentrytime'  => 'required',
             'empexittime'   => 'required|after:empentrytime',
             'empaddress'    => 'required|string',
+            'emplocation'   => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -112,6 +115,7 @@ class UserController extends Controller
             $employee->email = $request->empemail;
             $employee->mobile = $request->empphone;
             $employee->address = $request->empaddress;
+            $employee->location = $request->emplocation;
             $employee->entryTime = $request->empentrytime;
             $employee->exitTime = $request->empexittime;
             $employee->designation = $request->empdesignation;

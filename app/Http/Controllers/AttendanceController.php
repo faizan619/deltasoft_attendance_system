@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Models\Employees;
+use App\Models\Locations;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -20,9 +21,16 @@ class AttendanceController extends Controller
             return redirect()->back()->with('error',"Admin Can't Put Their Attendance. Login With your Employee ID");
         }
         else{
-            $user = Employees::all();
+            $userEmail =  Auth::user()->email;
+            $user = Employees::where('email',$userEmail)->first();
             // return $user;
-            return view('usersAttendance.attendance');
+            $loc = Locations::find($user->location);
+            if($loc){
+                return view('usersAttendance.attendance',compact('user','loc'));
+            }
+            else{
+                return redirect()->back()->with('error','Your Location is not Assigned! Contact Admin');
+            }
         }
     }
 

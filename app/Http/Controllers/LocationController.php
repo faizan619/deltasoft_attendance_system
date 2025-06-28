@@ -7,8 +7,16 @@ use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
-    public function viewPresentLocations(){
-        $locs = Locations::get();
+    public function viewPresentLocations(Request $request){
+        $query = Locations::query();
+
+        if (!empty($request->office_name)) {
+            $query->where('name', 'like', '%' . $request->office_name . '%');
+        }
+
+        $locs = $query->simplePaginate(20);
+
+
         return view('admin.addLocations',compact('locs'));
     }
 

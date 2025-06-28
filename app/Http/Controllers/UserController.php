@@ -59,21 +59,37 @@ class UserController extends Controller
         return redirect()->route('adminLogin');
     }
 
-    public function admin_dashboard()
+    public function admin_dashboard(Request $request)
     {
-        // $empData = User::with(['getUserAttendance' ])->get();
-        $empData = Attendance::orderBy('checkIn', 'desc')->get();;
-        // $empData = Attendance::latest()->get();
+        $query = Attendance::query();
+
+        // Search by employee name
+        if (!empty($request->emp_name)) {
+            $matchedUserIds = User::where('username', 'like', '%' . $request->emp_name . '%')->pluck('id');
+            $query->whereIn('emp_id', $matchedUserIds);
+        }
+
+        // Filter by date range if provided
+        if (!empty($request->start) && !empty($request->end)) {
+            $startDate = \Carbon\Carbon::parse($request->start)->startOfDay();
+            $endDate = \Carbon\Carbon::parse($request->end)->endOfDay();
+
+            $query->whereBetween('checkIn', [$startDate, $endDate]);
+        }
+
+        $empData = $query->orderBy('checkIn', 'desc')->simplePaginate(50);
+
         $empIds = User::pluck('username', 'id');
 
-        // return $empData;
         return view('dashboard', compact('empData', 'empIds'));
     }
+
+
 
     public function add_employee()
     {
         $locs = Locations::get();
-        return view('admin.addEmployee',compact('locs'));
+        return view('admin.addEmployee', compact('locs'));
     }
 
     public function save_employee(Request $request)
@@ -132,10 +148,15 @@ class UserController extends Controller
         }
     }
 
-    public function ViewEmpList()
+    public function ViewEmpList(Request $request)
     {
-        $emps = Employees::all();
-        // return $emps;
+        $query = Employees::query();
+
+        if (!empty($request->emp_name)) {
+            $query->where('name', 'like', '%' . $request->emp_name . '%');
+        }
+
+        $emps = $query->simplePaginate(50);
         return view('admin.employeelist', compact('emps'));
     }
 

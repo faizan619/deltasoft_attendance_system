@@ -215,16 +215,21 @@ class AttendanceController extends Controller
         return view('usersAttendance.attendance_reason', compact('attendanceTime', 'title', 'note', 'empCheck'));
     }
 
-
-
-    public function reached()
+    public function reached(Request $request)
     {
         $emp = User::where('id', Auth::id())->first();
 
-        $attendances = $emp->getUserAttendance()
-            ->orderByDesc('created_at') // latest first
-            ->paginate(30); // paginate 30 per page
+        $query = $emp->getUserAttendance();
 
-        return view('usersAttendance.result', compact('emp', 'attendances'));
+        if (!empty($request->start) && !empty($request->end)) {
+            $startDate = \Carbon\Carbon::parse($request->start)->startOfDay();
+            $endDate = \Carbon\Carbon::parse($request->end)->endOfDay();
+
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        }
+
+        $attendances = $query->orderByDesc('created_at')->paginate(30);
+
+        return view('usersAttendance.result', compact('attendances'));
     }
 }

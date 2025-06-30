@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\checkAdmin;
 use App\Http\Middleware\checkUser;
@@ -28,3 +29,6 @@ Route::get('/user',[AttendanceController::class,'user_dashboard'])->name('user_d
 Route::post('/user-attendance',[AttendanceController::class,'store'])->name('attendance.store')->middleware([checkUser::class]);
 Route::get('/user-reason',[AttendanceController::class,'attendanceReason'])->name('attendanceReason')->middleware([checkUser::class]);
 Route::get('/user-reached',[AttendanceController::class,'reached'])->name('reached')->middleware([checkUser::class]);
+
+Route::get('/location',[LocationController::class,'viewPresentLocations'])->name('viewPresentLocations');
+Route::post('/save-location',[LocationController::class,'savePresentLocations'])->name('savePresentLocations');

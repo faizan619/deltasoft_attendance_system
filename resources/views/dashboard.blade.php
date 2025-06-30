@@ -43,17 +43,35 @@
     <div class="card col-md-8 mx-auto">
         <div class="card-header bg-primary">
             <a class="text-light headerstyle underlinestyle" href="{{ route('admin_dashboard') }}">Employee Attendance Records</a> <span> | </span>
-            <a class="text-light headerstyle" href="{{ route('emp_list') }}">Employee List</a>
+            <a class="text-light headerstyle" href="{{ route('emp_list') }}">Employee List</a> <span> | </span> <a href="{{ route('viewPresentLocations') }}" class="text-light headerstyle">Locations</a>
         </div>
         <div class="card-body p-3">
-            <table id="attendanceTable" class="table table-sm table-striped table-bordered">
-                <thead class="bg-dark text-light">
+            <p>
+            <form action="{{ route('admin_dashboard') }}" class="row">
+                <div class="col-md-3">
+                    <input type="text" name="emp_name" id="emp_name" class="form-control form-control-sm" placeholder="Enter Employee Name" value="{{ request('emp_name') }}">
+                </div>
+                <div class="col-md-3">
+                    <input type="date" name="start" id="start" class="form-control form-control-sm">
+                </div>
+                <div class="col-md-3">
+                    <input type="date" name="end" id="end" class="form-control form-control-sm">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-sm btn-danger">Search</button>
+                    <a class="btn btn-sm btn-secondary" href="{{ route('admin_dashboard') }}" type="button">Reset</a>
+                </div>
+            </form>
+            </p>
+            <!-- <table id="attendanceTable" class="table table-sm table-striped table-bordered"> -->
+            <table id="" class="table table-sm table-striped table-bordered">
+                <thead class="">
                     <tr>
                         <th>Emp Name</th>
                         <th>Date</th>
                         <th>CheckIn</th>
                         <th>CheckOut</th>
-                        <th>Action</th>
+                        <!-- <th>Action</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -64,7 +82,7 @@
                         <td>{{ \Carbon\Carbon::parse($emp->checkIn)->format('jS F Y') }}</td>
                         <td>{{ \Carbon\Carbon::parse($emp->checkIn)->format('g:i A') }}</td>
                         <td>{{ $emp->checkOut ? \Carbon\Carbon::parse($emp->checkOut)->format('g:i A') : 'N/A' }}</td>
-                        <td></td>
+                        <!-- <td></td> -->
                     </tr>
                     @empty
                     <tr>
@@ -74,6 +92,8 @@
 
                 </tbody>
             </table>
+
+            <p>{{$empData->links()}}</p>
             <!--  -->
         </div>
 

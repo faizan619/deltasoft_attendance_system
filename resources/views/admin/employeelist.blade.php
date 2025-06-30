@@ -6,7 +6,7 @@
         text-decoration: none;
     }
 
-    .underlinestyle{
+    .underlinestyle {
         text-decoration: underline;
     }
 
@@ -39,9 +39,20 @@
     <div class="card col-md-8 mx-auto">
         <div class="card-header bg-primary">
             <a class="text-light headerstyle" href="{{ route('admin_dashboard') }}">Employee Attendance Records</a> <span> | </span>
-            <a class="text-light headerstyle underlinestyle" href="{{ route('emp_list') }}">Employee List</a>
+            <a class="text-light headerstyle underlinestyle" href="{{ route('emp_list') }}">Employee List</a> <span> | </span> <a href="{{ route('viewPresentLocations') }}" class="text-light headerstyle">Locations</a>
         </div>
         <div class="card-body px-1 pb-0">
+            <p>
+            <form action="{{ route('emp_list') }}" class="row">
+                <div class="col-md-5">
+                    <input type="text" name="emp_name" id="emp_name" class="form-control form-control-sm" placeholder="Enter Employee Name" value="{{ request('emp_name') }}">
+                </div>
+                <div class="col-md-7">
+                    <button type="submit" class="btn btn-sm btn-primary mr-2"><i class="fas fa-search"></i> Search</button>
+                    <a href="{{ route('emp_list') }}" class="btn btn-sm btn-secondary">Reset</a>
+                </div>
+            </form>
+            </p>
             <table class="table table-sm table-striped table-bordered">
                 <thead class="">
                     <tr>
@@ -88,6 +99,9 @@
 
                 </tbody>
             </table>
+            <p>
+                {{$emps->links()}}
+            </p>
         </div>
     </div>
 
@@ -178,7 +192,7 @@
                         </div>
                         <div class="col-md-8 mt-3" required>
                             <label for="empaddress">Address:</label>
-                            <textarea name="empaddress" id="empaddress" placeholder="Enter Employee Address" class="form-control" rows="1"></textarea>
+                            <textarea name="empaddress" id="empaddress" placeholder="Enter Employee Address" class="form-control" rows="3"></textarea>
                             @error('empaddress')
                             <small class="text-danger">{{ $message }}</small>
                             @enderror

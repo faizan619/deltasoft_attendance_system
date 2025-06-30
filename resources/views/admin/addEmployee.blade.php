@@ -19,24 +19,36 @@
         <h2 class="text-center">Add New Employee</h2>
         <form action="{{ route('save_employee') }}" method="POST" class="row px-2 rounded mt-3">
             @csrf
-            <div class="col-md-4 mt-3">
+            <div class="col-md-3 mt-3">
                 <label for="empname">Name:</label>
                 <input type="text" name="empname" id="empname" class="form-control" placeholder="Enter Employee Name">
                 @error('empname')
                 <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
-            <div class="col-md-4 mt-3">
+            <div class="col-md-3 mt-3">
                 <label for="empemail">Email:</label>
                 <input type="email" name="empemail" id="empemail" class="form-control" placeholder="Enter Employee Email">
                 @error('empemail')
                 <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
-            <div class="col-md-4 mt-3">
+            <div class="col-md-3 mt-3">
                 <label for="empphone">Number:</label>
-                <input type="number" name="empphone" id="empphone" class="form-control" placeholder="Enter Employee Number">
+                <input type="number" name="empphone" id="empphone" class="form-control" placeholder="Enter Phone Number">
                 @error('empphone')
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            <div class="col-md-3 mt-3">
+                <label for="emplocation">Location</label>
+                <select name="emplocation" id="emplocation" class="form-control">
+                    <option value="">Select Location</option>
+                    @foreach($locs as $loc)
+                        <option value="{{$loc->id}}">{{$loc->name}}</option>
+                    @endforeach
+                </select>
+                @error('emplocation')
                 <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
@@ -70,7 +82,7 @@
             </div>
             <div class="col-md-8 mt-3">
                 <label for="empaddress">Address:</label>
-                <textarea name="empaddress" id="empaddress" placeholder="Enter Employee Address" class="form-control" rows="1"></textarea>
+                <textarea name="empaddress" id="empaddress" placeholder="Enter Employee Address" class="form-control" rows="3"></textarea>
                 @error('empaddress')
                 <small class="text-danger">{{ $message }}</small>
                 @enderror
@@ -91,5 +103,8 @@
                 <button class="btn btn-danger">Submit</button>
             </div>
         </form>
+        <div>
+                <a href="{{ route('admin_dashboard') }}" class="text-danger"><i class="fas fa-arrow-left"></i> Back</a>
+        </div>
     </div>
 @endsection

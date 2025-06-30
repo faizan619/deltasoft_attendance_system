@@ -13,13 +13,23 @@
     <!-- Display message about the user's location -->
     <div id="location-status">
         <p id="location-message">Checking your location...</p>
+        <input type="hidden" name="lon" id="lon11" value="{{ $loc->longitude }}">
+        <input type="hidden" name="lat" id="lat11" value="{{ $loc->latitude }}">
         <p id="available-for-attendance"></p>
     </div>
 </div>
 
 <script>
-    const officeLatitude = 19.381066;
-    const officeLongitude = 72.826853;
+    // const officeLatitude = 19.381066;
+    // const officeLongitude = 72.826853;
+
+    const officeLatitude = document.getElementById('lon11').value;
+    // console.log('lat : ',officeLatitude)
+    const officeLongitude = document.getElementById('lat11').value;
+    // console.log('lon : ',officeLongitude)
+
+    
+    
     const officeRadius = 500; // meters
 
     function calculateDistance(lat1, lon1, lat2, lon2) {

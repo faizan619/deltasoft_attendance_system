@@ -11,11 +11,25 @@
     <div class="card col-md-8 mt-4 mx-auto">
         <div class="card-header bg-primary text-light text-capitalize">{{Auth::user()->username}} Attendance Records</div>
         <div class="card-body px-1 pb-0">
+            <p>
+                <form action="{{ route('reached') }}" class="row">
+                    <div class="col-md-3">
+                        <input type="date" name="start" id="start" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="date" name="end" id="end" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-sm btn-danger">Search</button>
+                        <a class="btn btn-sm btn-secondary" href="{{ route('reached') }}" type="button">Reset</a>
+                    </div>
+                </form>
+            </p>
             <table class="table table-sm table-striped table-bordered">
                 <thead class="">
                     <tr>
                         <th>Date</th>
-                        <th>CheckIn</th>
+                        <th>CheckIn</th> 
                         <th>CheckOut</th>
                     </tr>
                 </thead>

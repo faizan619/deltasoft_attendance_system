@@ -18,7 +18,7 @@
 <div class="container-fluid loginbg">
     <div class="row d-flex justify-content-center align-items-center loginpage mt-4 pt-3">
         <div class="col-md-5 mx-auto">
-        @if (session('success'))
+        {{-- @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>{{ session('success') }}</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -26,12 +26,23 @@
             </button>
         </div>
         @endif
-        @if (session('failed'))
+        @if (session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>{{ session('failed') }}</strong>
+            <strong>{{ session('error') }}</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
+        </div>
+        @endif --}}
+        @if (session('success'))
+        <div class="alert alert-success w-100">
+            {{ session('success') }}
+        </div>
+        @endif
+
+        @if (session('error'))
+        <div class="alert alert-danger w-100">
+            {{ session('error') }}
         </div>
         @endif
             <div class="card shadow">
